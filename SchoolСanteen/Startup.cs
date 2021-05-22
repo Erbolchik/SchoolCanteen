@@ -36,7 +36,7 @@ namespace SchoolСanteen
                               ValidateLifetime = true,
                               ValidateIssuerSigningKey = true,
                               ValidIssuer = Configuration["AuthOptions:Issuer"],
-                              ValidAudience = Configuration["AuthOptions:Audience"],
+                              ValidAudience = Configuration["AuthOptions:Issuer"],
                               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthOptions:SignInKey"]))
                           };
                       });
@@ -84,6 +84,7 @@ namespace SchoolСanteen
                 app.UseHsts();
             }
 
+            app.UseRequestLocalization();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

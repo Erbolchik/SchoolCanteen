@@ -27,12 +27,24 @@ namespace SchoolСanteen.Controllers
         }
 
         [HttpGet]
+        //[AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         public IEnumerable<Users> GetUsers()
         {
             var token = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
             var role = JWTHelper.GetUserRole(token, _config["AuthOptions:SignInKey"]);
             var login = JWTHelper.GetUserLogin(token, _config["AuthOptions:SignInKey"]);
             return _db.Users.ToList();
+        }
+
+        [Authorize]
+        [HttpGet("GetLoggedUser")]
+        public IActionResult GetLoggedUser()
+        {
+            var token = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var login = JWTHelper.GetUserLogin(token, _config["AuthOptions:SignInKey"]);
+
+            return Ok(_db.Users.SingleOrDefault(u => u.Username == login));
         }
     }
 }
