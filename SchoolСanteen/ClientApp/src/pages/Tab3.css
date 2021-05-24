@@ -1,0 +1,86 @@
+ion-content {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+ion-content ion-button {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+ion-toolbar {
+	--background: transparent;
+}
+
+ion-chip {
+	--background: #9dc912;
+	--color: #fff;
+}
+
+.card {
+	margin: 0 auto;
+}
+
+.card .header {
+	height: 200px;
+}
+
+.card .header .avatar {
+	width: 160px;
+	height: 160px;
+	position: relative;
+	margin: 0 auto;
+}
+
+.card .header .avatar img {
+	display: block;
+	border-radius: 50%;
+	position: absolute;
+	bottom: calc(-1*(80px + 4px));
+	border: 8px solid #9Dc912;
+	background-color: #fff;
+}
+
+.card-body {
+	background-color: #ffffff;
+	padding: 30px;
+	height: calc(100vh - (200px + 56px));
+	overflow: hidden;
+}
+
+.card-body .user-meta {
+	padding-top: 40px;
+}
+
+.card-body .user-meta .playername {
+	font-size: 24px;
+	font-weight: 600;
+	color: #303940;
+}
+
+.card-body .user-meta .country {
+	font-size: 90%;
+	color: #949ea6;
+	text-transform: uppercase;
+	margin: 0 auto;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 50%;
+  }
+
+.info {
+	margin-left: 10px;
+}
+
+.avatar{
+	margin:auto;
+	border-radius: 2% !important;
+	width: 30%;
+	height: 40%;
+}
