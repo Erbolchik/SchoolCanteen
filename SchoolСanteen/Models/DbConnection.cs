@@ -34,5 +34,6 @@ namespace SchoolСanteen.Models
 
         public DbSet<Roles> Roles { get; set; }
 
+        public DbSet<Orders> Orders { get; set; }
     }
 }

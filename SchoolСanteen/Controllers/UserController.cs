@@ -27,7 +27,6 @@ namespace SchoolСanteen.Controllers
         }
 
         [HttpGet]
-        //[AllowAnonymous]
         [Authorize(Roles = "Administrator")]
         public IEnumerable<Users> GetUsers()
         {
@@ -46,5 +45,7 @@ namespace SchoolСanteen.Controllers
 
             return Ok(_db.Users.SingleOrDefault(u => u.Username == login));
         }
+
+        
     }
 }
