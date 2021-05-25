@@ -17,22 +17,33 @@ import {
   IonModal,
   IonText,
 } from '@ionic/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getLoggerUser } from '../api';
 import { User } from '../api/models';
 import './Tab3.css';
 import { calendarOutline, callOutline, mailOutline, personOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router';
+import { Context } from '../defaults';
 
 const Tab3: React.FC = () => {
+  const { token, setToken } = useContext(Context);
   const [loggedUser, setLoggedUser] = useState<User>();
   const [showModal, setShowModal] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     getLoggerUser().then(({ data }) => setLoggedUser(data));
   }, []);
 
-  const history = useHistory();
+  useEffect(() => {
+    const t = localStorage.getItem('token');
+    if (t && !!history) {
+      setToken(t);
+    } else if (!!history) {
+      debugger;
+      history.push('/login');
+    }
+  }, [history, setToken, token]);
 
   const routeChange = () => {
     history.push('/history');

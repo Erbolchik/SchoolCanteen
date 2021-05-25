@@ -19,15 +19,27 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { addCircleOutline, removeCircleOutline } from 'ionicons/icons';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import './Tab1.css';
 import { Context } from './../defaults/index';
+import { useHistory } from 'react-router-dom';
 
 const Tab1: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<any>();
+  const history = useHistory();
 
-  const { addItem, removeItem, counter, menuItems } = useContext(Context);
+  const { addItem, removeItem, counter, menuItems, token, setToken } = useContext(Context);
+
+  useEffect(() => {
+    const t = localStorage.getItem('token');
+    if (t && !!history) {
+      setToken(t);
+    } else if (!!history) {
+      history.push('/login');
+    }
+  }, [history]);
+
   const modalAction = (id: any) => {
     setShowModal(true);
     // @ts-ignore

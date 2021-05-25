@@ -33,15 +33,30 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import { Context } from './defaults';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './pages/Login';
 import { ItemList } from './api/models';
 import OrderHistory from './pages/OrderHistory';
+import jwt from 'jwt-decode';
+import { useHistory } from 'react-router-dom';
 
 const App: React.FC = () => {
-  const [role, setRole] = useState('student');
+  const [role, setRole] = useState();
   const [counter, setCounter] = useState<any>([]);
   const [token, setToken] = useState<any>(localStorage.getItem('token'));
+  const history = useHistory();
+
+  useEffect(() => {
+    const t = localStorage.getItem('token');
+    if (t && !!history) {
+      setToken(t);
+      debugger;
+      const persistedToken = jwt(t);
+    } else if (!!history) {
+      debugger;
+      history.push('/login');
+    }
+  }, []);
 
   let itemList: ItemList[] = [];
 
@@ -274,11 +289,6 @@ const App: React.FC = () => {
               <IonTabButton tab="profile" href="/profile">
                 <IonIcon icon={personCircleOutline} />
                 <IonLabel>Профиль</IonLabel>
-              </IonTabButton>
-
-              <IonTabButton tab="login" href="/login">
-                <IonIcon icon={personCircleOutline} />
-                <IonLabel>Login</IonLabel>
               </IonTabButton>
             </IonTabBar>
           </IonTabs>

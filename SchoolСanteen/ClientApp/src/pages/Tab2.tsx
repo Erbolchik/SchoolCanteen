@@ -12,17 +12,30 @@ import {
   IonText,
   IonToast,
 } from '@ionic/react';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Context } from '../defaults';
 import { pay } from '../api';
 import './Tab2.css';
+import jwt from 'jwt-decode';
+import { useHistory } from 'react-router-dom';
 
 const Tab2: React.FC = () => {
-  const { counter, menuItems } = useContext(Context);
+  const { counter, menuItems, token, setToken } = useContext(Context);
   const [loading, setLoading] = useState(false);
   const [toastOptions, setToastOptions] = useState({ isOpen: false, isError: false });
   let order = [] as any;
   let summa = 0;
+  const history = useHistory();
+
+  useEffect(() => {
+    const t = localStorage.getItem('token');
+    if (t && !!history) {
+      setToken(t);
+    } else if (!!history) {
+      history.push('/login');
+    }
+  }, [history]);
+
   // @ts-ignore
   counter.forEach((el1) => {
     // @ts-ignore
