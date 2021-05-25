@@ -27,6 +27,7 @@ import { useHistory } from 'react-router';
 const Tab3: React.FC = () => {
   const [loggedUser, setLoggedUser] = useState<User>();
   const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     getLoggerUser().then(({ data }) => setLoggedUser(data));
   }, []);
@@ -83,7 +84,7 @@ const Tab3: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader translucent={true}>
+      <IonHeader translucent={true} mode="ios">
         <IonToolbar>
           <IonButtons slot="start">
             <IonButton color="light">
@@ -103,8 +104,8 @@ const Tab3: React.FC = () => {
       <IonContent fullscreen slot="fixed">
         <IonModal isOpen={showModal}>
           {showModal && (
-            <>
-              <IonHeader style={{ marginTop: 35 }}>
+            <IonPage>
+              <IonHeader translucent={true} mode="ios">
                 <IonTitle>История заказов</IonTitle>
               </IonHeader>
 
@@ -126,7 +127,7 @@ const Tab3: React.FC = () => {
               <IonButton color="secondary" size="default" onClick={() => setShowModal(false)}>
                 Закрыть
               </IonButton>
-            </>
+            </IonPage>
           )}
         </IonModal>
         <IonCard>

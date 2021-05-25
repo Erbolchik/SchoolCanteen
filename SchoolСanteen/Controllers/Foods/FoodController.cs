@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SchoolСanteen.Controllers.Foods;
 using SchoolСanteen.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,12 +29,12 @@ namespace SchoolСanteen.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCar(Food food)
+        public async Task<IActionResult> CreateFoodAsync([FromForm] FoodsRequest foodsRequest)
         {
-            _db.Food.Add(food);
+            foodsRequest.Food.Img = await saveFile(foodsRequest.File);
+            _db.Food.Add(foodsRequest.Food);
             _db.SaveChanges();
             return Ok();
-
         }
 
         [HttpDelete("{id}")]
@@ -51,6 +53,19 @@ namespace SchoolСanteen.Controllers
             _db.Food.Update(updatedFood);
             _db.SaveChanges();
             return Ok();
+        }
+
+        private async Task<string> saveFile(IFormFile file)
+        {
+            byte[] fileBytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                fileBytes = memoryStream.ToArray();
+            }
+            var content = Convert.ToBase64String(fileBytes);
+
+            return content;
         }
     }
 }

@@ -11,11 +11,13 @@ namespace SchoolСanteen.Models
 
         public int UserId { get; set; }
 
-        public int[] FoodsId { get; set; }
+        public int FoodId { get; set; }
 
         public DateTime Date { get; set; }
 
-        public double TotalPrice { get; set; }
+        public double Price { get; set; }
+
+        public int Count { get; set; }
 
     }
 }

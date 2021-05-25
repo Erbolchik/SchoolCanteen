@@ -20,7 +20,7 @@ import './Tab2.css';
 const Tab2: React.FC = () => {
   const { counter, menuItems } = useContext(Context);
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState(false);
+  const [toastOptions, setToastOptions] = useState({ isOpen: false, isError: false });
   let order = [] as any;
   let summa = 0;
   // @ts-ignore
@@ -28,7 +28,12 @@ const Tab2: React.FC = () => {
     // @ts-ignore
     menuItems.forEach((el2) => {
       if (el1.id === el2.id) {
-        order.push({ id: el1.id, name: el2.name, count: el1.count, price: el1.count * el2.price });
+        order.push({
+          foodId: el1.id,
+          name: el2.name,
+          count: el1.count,
+          price: el1.count * el2.price,
+        });
       }
     });
   });
@@ -39,11 +44,16 @@ const Tab2: React.FC = () => {
 
   const payOrder = () => {
     setLoading(true);
-    pay(order).then((res: any) => {
-      setLoading(false);
-      setToast(true);
-      order = [];
-    });
+    pay(order)
+      .then((res: any) => {
+        setLoading(false);
+        setToastOptions({ isOpen: true, isError: false });
+        order = [];
+      })
+      .catch(() => {
+        setToastOptions({ isOpen: true, isError: true });
+        setLoading(false);
+      });
   };
   return (
     <IonPage>
@@ -61,10 +71,14 @@ const Tab2: React.FC = () => {
             message={'Обработка...'}
           />
           <IonToast
-            isOpen={toast}
-            onDidDismiss={() => setToast(false)}
-            message="Успешно оплачено"
-            duration={200}
+            isOpen={toastOptions.isOpen}
+            onDidDismiss={() => setToastOptions({ isOpen: false, isError: false })}
+            message={
+              toastOptions.isError
+                ? 'Проишла ошибка , повторите попытку чуть позже '
+                : 'Успешно оплачено'
+            }
+            duration={3000}
           />
           {
             // @ts-ignore

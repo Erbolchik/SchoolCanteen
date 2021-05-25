@@ -5,34 +5,30 @@ const instance = () =>
   axios.default.create({
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   });
 
-//#region Service spending
+export const getFoods = () => {
+  return instance().get('/api/Food');
+};
+
+export const saveFood = (data: any) => {
+  return instance().post('/api/Food', data);
+};
+
 export const getLoggerUser = () => {
-  return instance().get('http://localhost:52425/api/User/GetLoggedUser');
+  return instance().get('/api/User/GetLoggedUser');
 };
 
 export const pay = (data: any) => {
-  console.log(data);
-  return instance().post('http://localhost:52425/api/User/GetLoggedUser');
-  // ербо добей апишку плз
+  return instance().post('/api/Orders', data);
 };
 
-// export const saveServiceSpending = (data: any) => {
-//   return instance().post('/api/ServiceSpending', data);
-// };
-
-// export const updateServiceSpending = (data: any) => {
-//   return instance().put('/api/ServiceSpending', data);
-// };
-
-// export const deleteServiceSpending = (id: number) => {
-//   return instance().delete(`/api/ServiceSpending/${id}`);
-// };
-//#endregion
+export const getMyOrders = () => {
+  return instance().get('/api/MyOrders');
+};
 
 export const login = (loginData: Login) => {
-  debugger;
-  return instance().post('http://localhost:52425/api/Login', loginData);
+  return instance().post('/api/Login', loginData);
 };
