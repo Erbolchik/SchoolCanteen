@@ -37,31 +37,23 @@ import { useState, useEffect } from 'react';
 import Login from './pages/Login';
 import { ItemList } from './api/models';
 import OrderHistory from './pages/OrderHistory';
-import jwt from 'jwt-decode';
 import { useHistory } from 'react-router-dom';
 import AdminPanel from './pages/AdminPanel';
 import AddingMenu from './components/AddingMenu';
-import { getFoods } from './api/index';
+import { getFoods, getMyRole } from './api/index';
+import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
-  const [role, setRole] = useState('admin');
+  const [role, setRole] = useState();
   const [counter, setCounter] = useState<any>([]);
   const [food, setFood] = useState<any>([]);
   const [updateFood, setUpdateFood] = useState(false);
   const [token, setToken] = useState<any>(localStorage.getItem('token'));
-  const history = useHistory();
+  console.log(role);
 
   useEffect(() => {
-    const t = localStorage.getItem('token');
-    if (t && !!history) {
-      setToken(t);
-      debugger;
-      const persistedToken = jwt(t);
-    } else if (!!history) {
-      debugger;
-      history.push('/login');
-    }
-  }, []);
+    !!token && getMyRole().then((res) => setRole(res.data));
+  }, [token]);
 
   useEffect(() => {
     if (updateFood) {
@@ -154,30 +146,16 @@ const App: React.FC = () => {
           }}>
           <IonTabs>
             <IonRouterOutlet>
-              <Route exact path="/menu">
-                <Tab1 />
-              </Route>
-              <Route exact path="/order">
-                <Tab2 />
-              </Route>
-              <Route path="/profile">
-                <Tab3 />
-              </Route>
-              <Route exact path="/">
+              <PrivateRoute exact path="/menu" component={Tab1}></PrivateRoute>
+              <PrivateRoute exact path="/order" component={Tab2}></PrivateRoute>
+              <PrivateRoute path="/profile" component={Tab3}></PrivateRoute>
+              <PrivateRoute exact path="/">
                 <Redirect to="/menu" />
-              </Route>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/history">
-                <OrderHistory />
-              </Route>
-              <Route exact path="/admin">
-                <AdminPanel />
-              </Route>
-              <Route exact path="/newmenu">
-                <AddingMenu />
-              </Route>
+              </PrivateRoute>
+              <Route exact path="/login" component={Login}></Route>
+              <PrivateRoute exact path="/history" component={OrderHistory}></PrivateRoute>
+              <PrivateRoute exact path="/admin" component={AdminPanel}></PrivateRoute>
+              <PrivateRoute exact path="/newmenu" component={AddingMenu}></PrivateRoute>
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="menu" href="/menu">
@@ -188,7 +166,7 @@ const App: React.FC = () => {
                 <IonIcon icon={cardOutline} />
                 <IonLabel>Корзина</IonLabel>
               </IonTabButton>
-              {role === 'admin' && (
+              {role === 'Administrator' && (
                 <IonTabButton tab="admin" href="/admin">
                   <IonIcon icon={settingsOutline} />
                   <IonLabel>Панель</IonLabel>

@@ -21,6 +21,10 @@ export const getLoggerUser = () => {
   return instance().get('/api/User/GetLoggedUser');
 };
 
+export const getMyRole = () => {
+  return instance().get('/api/User/GetMyRole');
+};
+
 export const pay = (data: any) => {
   return instance().post('/api/Orders', data);
 };

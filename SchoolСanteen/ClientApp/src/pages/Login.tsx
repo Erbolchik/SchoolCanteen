@@ -31,7 +31,6 @@ const Login: React.FC = () => {
       }, 1000);
     });
   };
-  console.log(loginData);
   return (
     <IonPage style={{ marginTop: 150 }}>
       <IonToolbar>

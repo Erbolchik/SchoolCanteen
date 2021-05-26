@@ -19,26 +19,14 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { addCircleOutline, removeCircleOutline } from 'ionicons/icons';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import './Tab1.css';
 import { Context } from './../defaults/index';
-import { useHistory } from 'react-router-dom';
 
 const Tab1: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<any>();
-  const history = useHistory();
-
-  const { addItem, removeItem, counter, menuItems, token, setToken } = useContext(Context);
-
-  useEffect(() => {
-    const t = localStorage.getItem('token');
-    if (t && !!history) {
-      setToken(t);
-    } else if (!!history) {
-      history.push('/login');
-    }
-  }, [history]);
+  const { addItem, removeItem, counter, menuItems } = useContext(Context);
 
   const modalAction = (id: any) => {
     setShowModal(true);
@@ -88,7 +76,7 @@ const Tab1: React.FC = () => {
             menuItems.map((item, index) => {
               return (
                 <IonItem key={index}>
-                      <IonAvatar slot="start" onClick={() => modalAction(item.id)}>
+                  <IonAvatar slot="start" onClick={() => modalAction(item.id)}>
                     <img
                       src={`data:image/png;base64, ${item.img}`}
                       style={{ borderRadius: 15, width: 200, height: 40 }}

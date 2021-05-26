@@ -31,7 +31,7 @@ namespace SchoolСanteen.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] Users loggedUser)
         {
-            IActionResult response = Unauthorized();
+                IActionResult response = Unauthorized();
             UserModel userModel = new UserModel();
             var user = Authenticate(loggedUser);
             if (user != null)

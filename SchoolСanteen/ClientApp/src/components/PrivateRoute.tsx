@@ -6,7 +6,6 @@ import jwt from 'jwt-decode';
 
 const PrivateRoute = ({ component: Component, roles, ...rest }: any) => {
   const { token }: any = useContext(Context);
-
   const grantPermission = (props: any) => {
     if (token) {
       const persistedToken: any = jwt(token);
@@ -20,24 +19,13 @@ const PrivateRoute = ({ component: Component, roles, ...rest }: any) => {
           />
         );
       } else {
-        const role = persistedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-        if (role && roles.indexOf(role) === -1) {
-          return (
-            <Redirect
-              to={{
-                pathname: '/error/noaccess',
-                state: { from: props.location },
-              }}
-            />
-          );
-        }
         return <Component {...props} />;
       }
     } else {
       return (
         <Redirect
           to={{
-            pathname: '/error/unauthorized',
+            pathname: '/login',
             state: { from: props.location },
           }}
         />
@@ -45,10 +33,6 @@ const PrivateRoute = ({ component: Component, roles, ...rest }: any) => {
     }
   };
 
-  return (
-    <>
-      <Route {...rest} render={(props) => grantPermission(props)} />
-    </>
-  );
+  return <Route {...rest} render={(props) => grantPermission(props)} />;
 };
 export default PrivateRoute;

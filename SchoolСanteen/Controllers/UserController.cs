@@ -46,6 +46,15 @@ namespace SchoolСanteen.Controllers
             return Ok(_db.Users.SingleOrDefault(u => u.Username == login));
         }
 
-        
+        [Authorize]
+        [HttpGet("GetMyRole")]
+        public IActionResult GetMyRole()
+        {
+            var token = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+            var role = JWTHelper.GetUserRole(token, _config["AuthOptions:SignInKey"]);
+
+            return Ok(role);
+        }
+
     }
 }

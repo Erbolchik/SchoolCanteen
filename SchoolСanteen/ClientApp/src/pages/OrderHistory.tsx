@@ -85,6 +85,7 @@ const OrderHistory: React.FC = () => {
                   <IonLabel style={{ marginRight: '15px' }}>
                     <h3>Заказ №{item.id}</h3>
                     <p>Дата: {new Date(item.date).toLocaleDateString()}</p>
+                    <p>Стоимость: {item.price}</p>
                   </IonLabel>
                   <IonText>{item.summ}</IonText>
                 </IonItem>

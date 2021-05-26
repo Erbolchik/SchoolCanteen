@@ -18,7 +18,7 @@ import {
   IonText,
 } from '@ionic/react';
 import { useEffect, useState, useContext } from 'react';
-import { getLoggerUser, saveFood, getMyOrders } from '../api';
+import { getLoggerUser, getMyOrders } from '../api';
 import { User } from '../api/models';
 import './Tab3.css';
 import { calendarOutline, callOutline, mailOutline, personOutline } from 'ionicons/icons';
@@ -26,73 +26,26 @@ import { useHistory } from 'react-router';
 import { Context } from '../defaults';
 
 const Tab3: React.FC = () => {
-  const { token, setToken } = useContext(Context);
   const [loggedUser, setLoggedUser] = useState<User>();
   const [myOrders, setMyOrders] = useState();
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
+  const { token, setToken } = useContext(Context);
 
   useEffect(() => {
     getLoggerUser().then(({ data }) => setLoggedUser(data));
     getMyOrders().then(({ data }) => setMyOrders(data));
   }, []);
 
-  useEffect(() => {
-    const t = localStorage.getItem('token');
-    if (t && !!history) {
-      setToken(t);
-    } else if (!!history) {
-      history.push('/login');
-    }
-  }, [history, setToken, token]);
-
   const routeChange = () => {
     history.push('/history');
   };
 
-  const orderHistory = [
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-    { id: 1, date: '18.11.1999', summ: 1500 },
-    { id: 2, date: '30.03.2000', summ: 2540 },
-    { id: 3, date: '28.02.1999', summ: 500 },
-    { id: 4, date: '05.08.2000', summ: 1530 },
-  ];
+  const logOut = () => {
+    setToken(null);
+    localStorage.removeItem('token');
+    history.push('/login');
+  };
 
   return (
     <IonPage>
@@ -180,6 +133,9 @@ const Tab3: React.FC = () => {
             </IonList>
             <IonButton expand="full" color="secondary" onClick={routeChange}>
               История заказов
+            </IonButton>
+            <IonButton expand="full" color="danger" onClick={logOut}>
+              Выйти
             </IonButton>
           </IonCardContent>
         </IonCard>
