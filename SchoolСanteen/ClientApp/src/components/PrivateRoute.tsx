@@ -14,7 +14,6 @@ const PrivateRoute = ({ component: Component, roles, ...rest }: any) => {
           <Redirect
             to={{
               pathname: '/error/sessionexpired',
-              state: { from: props.location },
             }}
           />
         );
@@ -26,7 +25,6 @@ const PrivateRoute = ({ component: Component, roles, ...rest }: any) => {
         <Redirect
           to={{
             pathname: '/login',
-            state: { from: props.location },
           }}
         />
       );

@@ -149,9 +149,7 @@ const App: React.FC = () => {
               <PrivateRoute exact path="/menu" component={Tab1}></PrivateRoute>
               <PrivateRoute exact path="/order" component={Tab2}></PrivateRoute>
               <PrivateRoute path="/profile" component={Tab3}></PrivateRoute>
-              <PrivateRoute exact path="/">
-                <Redirect to="/menu" />
-              </PrivateRoute>
+              <Route exact path="/" component={Tab1} />
               <Route exact path="/login" component={Login}></Route>
               <PrivateRoute exact path="/history" component={OrderHistory}></PrivateRoute>
               <PrivateRoute exact path="/admin" component={AdminPanel}></PrivateRoute>

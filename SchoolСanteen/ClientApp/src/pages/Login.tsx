@@ -26,6 +26,7 @@ const Login: React.FC = () => {
     return login(loginData).then((response) => {
       localStorage.setItem('token', response.data.token);
       setToken(response.data.token);
+      setLoginData(null);
       setTimeout(() => {
         history.push('/');
       }, 1000);
