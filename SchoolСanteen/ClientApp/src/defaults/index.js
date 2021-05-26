@@ -8,4 +8,5 @@ export const Context = React.createContext({
   setToken: Dispatch,
   addItem: Dispatch,
   removeItem: Dispatch,
+  setCounter: Dispatch,
 });

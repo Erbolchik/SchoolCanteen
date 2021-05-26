@@ -10,7 +10,7 @@ const instance = () =>
   });
 
 export const getFoods = () => {
-  return instance().get('/api/Food');
+  return instance().get('/api/Food/getAll');
 };
 
 export const saveFood = (data: any) => {

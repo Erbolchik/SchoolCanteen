@@ -28,11 +28,15 @@ namespace SchoolСanteen.Controllers
             return _db.Food.Include(c => c.FoodType).ToList();
         }
 
+        [HttpGet]
+        [Route("getAll")]
+        public IEnumerable<Food> GetAllFoods() => _db.Food.ToList();
+        
+
         [HttpPost]
-        public async Task<IActionResult> CreateFoodAsync([FromForm] FoodsRequest foodsRequest)
+        public async Task<IActionResult> CreateFoodAsync(Food foodsRequest)
         {
-            foodsRequest.Food.Img = await saveFile(foodsRequest.File);
-            _db.Food.Add(foodsRequest.Food);
+            _db.Food.Add(foodsRequest);
             _db.SaveChanges();
             return Ok();
         }

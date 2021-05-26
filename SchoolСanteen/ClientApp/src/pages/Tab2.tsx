@@ -20,7 +20,7 @@ import jwt from 'jwt-decode';
 import { useHistory } from 'react-router-dom';
 
 const Tab2: React.FC = () => {
-  const { counter, menuItems, token, setToken } = useContext(Context);
+  const { counter, menuItems, token, setToken, setCounter } = useContext(Context);
   const [loading, setLoading] = useState(false);
   const [toastOptions, setToastOptions] = useState({ isOpen: false, isError: false });
   let order = [] as any;
@@ -62,12 +62,14 @@ const Tab2: React.FC = () => {
         setLoading(false);
         setToastOptions({ isOpen: true, isError: false });
         order = [];
+        setCounter([]);
       })
       .catch(() => {
         setToastOptions({ isOpen: true, isError: true });
         setLoading(false);
       });
   };
+  console.log(order);
   return (
     <IonPage>
       <IonCard>

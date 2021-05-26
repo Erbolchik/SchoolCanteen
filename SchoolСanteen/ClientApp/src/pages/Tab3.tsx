@@ -18,7 +18,7 @@ import {
   IonText,
 } from '@ionic/react';
 import { useEffect, useState, useContext } from 'react';
-import { getLoggerUser } from '../api';
+import { getLoggerUser, saveFood } from '../api';
 import { User } from '../api/models';
 import './Tab3.css';
 import { calendarOutline, callOutline, mailOutline, personOutline } from 'ionicons/icons';
@@ -40,7 +40,6 @@ const Tab3: React.FC = () => {
     if (t && !!history) {
       setToken(t);
     } else if (!!history) {
-      debugger;
       history.push('/login');
     }
   }, [history, setToken, token]);

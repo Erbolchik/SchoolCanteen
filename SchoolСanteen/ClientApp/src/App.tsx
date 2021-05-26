@@ -9,7 +9,7 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { basketOutline, cardOutline, personCircleOutline } from 'ionicons/icons';
+import { basketOutline, cardOutline, personCircleOutline, settingsOutline } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -39,10 +39,14 @@ import { ItemList } from './api/models';
 import OrderHistory from './pages/OrderHistory';
 import jwt from 'jwt-decode';
 import { useHistory } from 'react-router-dom';
+import AdminPanel from './pages/AdminPanel';
+import AddingMenu from './components/AddingMenu';
+import { getFoods } from './api/index';
 
 const App: React.FC = () => {
-  const [role, setRole] = useState();
+  const [role, setRole] = useState('admin');
   const [counter, setCounter] = useState<any>([]);
+  const [food, setFood] = useState<any>([]);
   const [token, setToken] = useState<any>(localStorage.getItem('token'));
   const history = useHistory();
 
@@ -56,6 +60,10 @@ const App: React.FC = () => {
       debugger;
       history.push('/login');
     }
+  }, []);
+
+  useEffect(() => {
+    getFoods().then((res) => setFood(res.data));
   }, []);
 
   let itemList: ItemList[] = [];
@@ -120,122 +128,6 @@ const App: React.FC = () => {
     }
   };
 
-  const menuItems = [
-    {
-      id: 1,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 2,
-      img: 'https://img.buzzfeed.com/video-api-prod/assets/7500687a06b34ee29c84a044861a01fc/BFV9770_DoubleCheeseburgerasmadebyErikAnderson-Thumb1080SQ.jpg?output-format=auto&output-quality=auto',
-      name: 'Double Cheese Burger ',
-      desc: 'Its a mutherfucing BURGEEEEEEEEEEEEEEEEEEEER',
-      price: 250,
-    },
-    {
-      id: 3,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 4,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 5,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 6,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 7,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 8,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 9,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 10,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 11,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 12,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-
-    {
-      id: 13,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 14,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 15,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-    {
-      id: 16,
-      img: 'https://assets3.thrillist.com/v1/image/2919049/1200x630/flatten;crop_down;jpeg_quality=70',
-      name: 'Pizza',
-      desc: 'Its cool meal',
-      price: 250,
-    },
-  ];
-
   return (
     <IonApp>
       <IonReactRouter>
@@ -245,10 +137,11 @@ const App: React.FC = () => {
             basket: null,
             token,
             counter: counter as any,
-            menuItems: menuItems as any,
+            menuItems: food as any,
             setToken,
             addItem,
             removeItem,
+            setCounter,
           }}>
           <IonTabs>
             <IonRouterOutlet>
@@ -270,6 +163,12 @@ const App: React.FC = () => {
               <Route exact path="/history">
                 <OrderHistory />
               </Route>
+              <Route exact path="/admin">
+                <AdminPanel />
+              </Route>
+              <Route exact path="/newmenu">
+                <AddingMenu />
+              </Route>
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="menu" href="/menu">
@@ -281,9 +180,9 @@ const App: React.FC = () => {
                 <IonLabel>Корзина</IonLabel>
               </IonTabButton>
               {role === 'admin' && (
-                <IonTabButton tab="order" href="/order">
-                  <IonIcon icon={cardOutline} />
-                  <IonLabel>Корзина</IonLabel>
+                <IonTabButton tab="admin" href="/admin">
+                  <IonIcon icon={settingsOutline} />
+                  <IonLabel>Панель</IonLabel>
                 </IonTabButton>
               )}
               <IonTabButton tab="profile" href="/profile">

@@ -58,12 +58,12 @@ const Tab1: React.FC = () => {
           {showModal && (
             <>
               <IonCard mode="ios">
-                <img src={currentMenu.img} />
+                <img src={`data:image/png;base64, ${currentMenu.img}`}></img>
                 <IonCardHeader>
                   <IonCardSubtitle>Из чего состоит</IonCardSubtitle>
                   <IonCardTitle>{currentMenu.name}</IonCardTitle>
                 </IonCardHeader>
-                <IonCardContent>{currentMenu.desc}</IonCardContent>
+                <IonCardContent>{currentMenu.description}</IonCardContent>
               </IonCard>
               <IonButton color="secondary" size="default" onClick={() => setShowModal(false)}>
                 Закрыть
@@ -89,7 +89,10 @@ const Tab1: React.FC = () => {
               return (
                 <IonItem key={index}>
                   <IonAvatar slot="start">
-                    <img src={item.img} style={{ borderRadius: 15, width: 200, height: 40 }} />
+                    <img
+                      src={`data:image/png;base64, ${item.img}`}
+                      style={{ borderRadius: 15, width: 200, height: 40 }}
+                    />
                   </IonAvatar>
                   <IonLabel onClick={() => modalAction(item.id)} style={{ marginRight: '15px' }}>
                     <h3>{item.name}</h3>
