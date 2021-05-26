@@ -9,4 +9,5 @@ export const Context = React.createContext({
   addItem: Dispatch,
   removeItem: Dispatch,
   setCounter: Dispatch,
+  setUpdateFood: Dispatch,
 });

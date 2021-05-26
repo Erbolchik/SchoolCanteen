@@ -47,6 +47,7 @@ const App: React.FC = () => {
   const [role, setRole] = useState('admin');
   const [counter, setCounter] = useState<any>([]);
   const [food, setFood] = useState<any>([]);
+  const [updateFood, setUpdateFood] = useState(false);
   const [token, setToken] = useState<any>(localStorage.getItem('token'));
   const history = useHistory();
 
@@ -61,6 +62,13 @@ const App: React.FC = () => {
       history.push('/login');
     }
   }, []);
+
+  useEffect(() => {
+    if (updateFood) {
+      setUpdateFood(false);
+      getFoods().then((res) => setFood(res.data));
+    }
+  }, [updateFood]);
 
   useEffect(() => {
     getFoods().then((res) => setFood(res.data));
@@ -142,6 +150,7 @@ const App: React.FC = () => {
             addItem,
             removeItem,
             setCounter,
+            setUpdateFood,
           }}>
           <IonTabs>
             <IonRouterOutlet>

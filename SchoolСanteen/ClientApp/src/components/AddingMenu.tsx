@@ -22,12 +22,13 @@ import {
   IonLoading,
   IonToast,
 } from '@ionic/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { camera } from 'ionicons/icons';
 import './AddingMenu.css';
 import { saveFood } from '../api';
+import { Context } from '../defaults';
 
 export function usePhotoGallery() {
   const [photos, setPhotos] = useState<UserPhoto[]>([]);
@@ -64,6 +65,7 @@ export interface UserPhoto {
 
 const AddingMenu: React.FC = () => {
   const { photos, takePhoto, setPhotos } = usePhotoGallery();
+  const { setUpdateFood } = useContext(Context);
   const [data, setData] = useState<any>({
     img: '',
     name: '',
@@ -81,6 +83,7 @@ const AddingMenu: React.FC = () => {
       .then((res: any) => {
         setLoading(false);
         setToastOptions({ isOpen: true, isError: false });
+        setUpdateFood(true);
         setData({ img: '', name: '', description: '', price: '' });
         setPhotos([]);
       })
