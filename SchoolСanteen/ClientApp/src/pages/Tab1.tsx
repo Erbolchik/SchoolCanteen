@@ -88,7 +88,7 @@ const Tab1: React.FC = () => {
             menuItems.map((item, index) => {
               return (
                 <IonItem key={index}>
-                  <IonAvatar slot="start">
+                  <IonAvatar slot="start" onClick={() => modalAction(item.id)}>
                     <img src={item.img} style={{ borderRadius: 15, width: 200, height: 40 }} />
                   </IonAvatar>
                   <IonLabel onClick={() => modalAction(item.id)} style={{ marginRight: '15px' }}>

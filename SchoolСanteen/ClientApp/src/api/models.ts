@@ -5,7 +5,7 @@ export type User = {
   middleName: string;
   phoneNumber: string;
   email: string;
-  registrationDate: string;
+  registraionDate: string;
 };
 
 export type Roles = {
