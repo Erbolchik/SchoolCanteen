@@ -11,8 +11,16 @@ import {
   IonBackButton,
   IonButtons,
 } from '@ionic/react';
+import { getLoggerUser, getMyOrders } from '../api';
+import { useEffect, useState } from 'react';
 
 const OrderHistory: React.FC = () => {
+  const [myOrders, setMyOrders] = useState();
+
+  useEffect(() => {
+    getMyOrders().then(({ data }) => setMyOrders(data));
+  }, []);
+
   const orderHistory = [
     { id: 1, date: '18.11.1999', summ: 1500 },
     { id: 2, date: '30.03.2000', summ: 2540 },
@@ -69,14 +77,14 @@ const OrderHistory: React.FC = () => {
       </IonHeader>
       <IonContent fullscreen slot="fixed">
         <IonList style={{ marginTop: 15 }} lines="inset">
-          {orderHistory &&
+          {myOrders &&
             // @ts-ignore
-            orderHistory.map((item, index) => {
+            myOrders.map((item, index) => {
               return (
                 <IonItem key={index}>
                   <IonLabel style={{ marginRight: '15px' }}>
                     <h3>Заказ №{item.id}</h3>
-                    <p>Дата: {item.date}</p>
+                    <p>Дата: {new Date(item.date).toLocaleDateString()}</p>
                   </IonLabel>
                   <IonText>{item.summ}</IonText>
                 </IonItem>

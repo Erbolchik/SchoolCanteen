@@ -26,7 +26,7 @@ export const pay = (data: any) => {
 };
 
 export const getMyOrders = () => {
-  return instance().get('/api/MyOrders');
+  return instance().get('/api/Orders/MyOrders');
 };
 
 export const login = (loginData: Login) => {

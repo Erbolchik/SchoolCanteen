@@ -18,7 +18,7 @@ import {
   IonText,
 } from '@ionic/react';
 import { useEffect, useState, useContext } from 'react';
-import { getLoggerUser, saveFood } from '../api';
+import { getLoggerUser, saveFood, getMyOrders } from '../api';
 import { User } from '../api/models';
 import './Tab3.css';
 import { calendarOutline, callOutline, mailOutline, personOutline } from 'ionicons/icons';
@@ -28,11 +28,13 @@ import { Context } from '../defaults';
 const Tab3: React.FC = () => {
   const { token, setToken } = useContext(Context);
   const [loggedUser, setLoggedUser] = useState<User>();
+  const [myOrders, setMyOrders] = useState();
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
     getLoggerUser().then(({ data }) => setLoggedUser(data));
+    getMyOrders().then(({ data }) => setMyOrders(data));
   }, []);
 
   useEffect(() => {
@@ -120,9 +122,9 @@ const Tab3: React.FC = () => {
               </IonHeader>
 
               <IonList style={{ marginTop: 15 }} lines="inset">
-                {orderHistory &&
+                {myOrders &&
                   // @ts-ignore
-                  orderHistory.map((item, index) => {
+                  myOrders.map((item, index) => {
                     return (
                       <IonItem key={index}>
                         <IonLabel style={{ marginRight: '15px' }}>
@@ -143,12 +145,19 @@ const Tab3: React.FC = () => {
         <IonCard>
           <IonHeader>
             <IonAvatar className="avatar">
-              <img src="https://bipbap.ru/wp-content/uploads/2018/03/01-700x1050-640x960.jpg" />
+              <img src="https://st.depositphotos.com/1779253/5140/v/600/depositphotos_51401141-stock-illustration-male-avatar-profile-picture-use.jpg" />
             </IonAvatar>
           </IonHeader>
           <IonCardContent>
             <IonList>
               <IonListHeader>Персональная информация</IonListHeader>
+              <IonItem>
+                <IonIcon icon={personOutline} />
+                <span className="info">ФИО:</span>
+                <IonLabel>
+                  {loggedUser?.firstName} {loggedUser?.lastName} {loggedUser?.middleName}
+                </IonLabel>
+              </IonItem>
               <IonItem>
                 <IonIcon icon={mailOutline} />
                 <span className="info">Почтовый адрес:</span>
@@ -160,16 +169,13 @@ const Tab3: React.FC = () => {
                 <IonLabel> {loggedUser?.phoneNumber}</IonLabel>
               </IonItem>
               <IonItem>
-                <IonIcon icon={personOutline} />
-                <span className="info">ФИО:</span>
-                <IonLabel>
-                  {loggedUser?.firstName} {loggedUser?.lastName} {loggedUser?.middleName}
-                </IonLabel>
-              </IonItem>
-              <IonItem>
                 <IonIcon icon={calendarOutline} />
                 <span className="info">Дата регистрации:</span>
-                <IonLabel> {loggedUser?.registrationDate}</IonLabel>
+                <IonLabel>
+                  {loggedUser?.registraionDate.split('-')[2].split('T')[0]}/
+                  {loggedUser?.registraionDate.split('-')[1]}/
+                  {loggedUser?.registraionDate.split('-')[0]}
+                </IonLabel>
               </IonItem>
             </IonList>
             <IonButton expand="full" color="secondary" onClick={routeChange}>
