@@ -45,6 +45,7 @@ const Tab3: React.FC = () => {
     setToken(null);
     localStorage.removeItem('token');
     history.push('/login');
+    history.go(0);
   };
 
   return (
